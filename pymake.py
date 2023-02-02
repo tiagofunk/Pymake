@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 def read_files( directory ):
     f = []
@@ -59,21 +60,40 @@ def remove_program():
         command = create_remove_file_command( PROGRAM_PATH )
         execute( command )
 
+def needs_compilation( path, file ):
+    dir = Path( f"{path}")
+    files = list(dir.glob(f"*{file}*"))
+    if len(files) == 1:
+        return True
+    sorted_files = sorted(files, key=lambda f: f.stat().st_mtime, reverse=True)
+    if sorted_files[0].name.endswith(".cpp"):
+        return True
+    return False
+
+def create_arguments( file, file_arguments_exception ):
+    arguments = ""
+    if file in files_arguments_exceptions:
+        arguments = f"{files_arguments_exceptions[file]} {ARGUMENTS}"
+    else:
+        arguments = ARGUMENTS
+    return arguments
+    
+
 def build( files_arguments_exceptions ):
     errors_counts = 0
+    files_compiled_count = 0
     files = read_files(FILES_DIR)
     files = filter_extensions(files, ".cpp")
 
     for f in files:
         path, file = extract_path_and_file( f )
-        if file in files_arguments_exceptions:
-            if not compile_file( f, f"{files_arguments_exceptions[file]} {ARGUMENTS}" ):
-                errors_counts += 1
-        else:
-            if not compile_file( f, ARGUMENTS ):
-                errors_counts += 1
+        if not needs_compilation(path, file):
+            continue
+        files_compiled_count += 1
+        if not compile_file( f, create_arguments(file, files_arguments_exceptions) ):
+            errors_counts += 1
 
-    if errors_counts == 0:
+    if errors_counts == 0 and files_compiled_count > 0:
         compile_program(files)
 
 def clean():
