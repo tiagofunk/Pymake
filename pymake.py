@@ -1,4 +1,5 @@
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -18,29 +19,31 @@ def extract_path_and_file(file_path):
     return path, file
 
 def create_file_compile_command( path, file, arguments ):
-    return f"{COMPILER} {arguments} {path}{file}.cpp -o {path}{file}.o"
+    arguments.insert( 0, COMPILER )
+    arguments.append( f"{path}{file}.cpp" )
+    arguments.append("-o")
+    arguments.append(f"{path}{file}.o")
+    return arguments
 
 def create_program_compile_command( files ):
-    command = f"{COMPILER} -o {PROGRAM_PATH} "
+    command = [COMPILER,"-o", PROGRAM_PATH]
     for f in files:
-        command += f"{swap_extension(f)} "
+        command.append( swap_extension(f) )
     return command
 
 def create_remove_file_command( file ):
-    return f"rm {file}"
+    return ["rm", file]
 
 def swap_extension( file ):
     return file[0:-4] + ".o"
 
 def execute( command ):
     print( f"Executando: {command}" )
-    r = os.popen(command)
-    result = r.readlines()
-    r.close()
-    if( result != [] ):
-        print( result )
+    try:
+        output = subprocess.check_output(command)
+        return True
+    except subprocess.CalledProcessError as e:
         return False
-    return True
 
 def compile_file( file, arguments ):
     path, file = extract_path_and_file( file )
@@ -71,11 +74,13 @@ def needs_compilation( path, file ):
     return False
 
 def create_arguments( file, file_arguments_exception ):
-    arguments = ""
+    arguments = []
     if file in files_arguments_exceptions:
-        arguments = f"{files_arguments_exceptions[file]} {ARGUMENTS}"
+        arguments = ARGUMENTS.copy()
+        for a in files_arguments_exceptions[file]:
+            arguments.append( a )
     else:
-        arguments = ARGUMENTS
+        arguments = ARGUMENTS.copy()
     return arguments
     
 
@@ -106,12 +111,12 @@ def clean():
 
 FILES_DIR = "./src/"
 COMPILER = "g++"
-ARGUMENTS = "-c -O3 -Wall -fmessage-length=0"
+ARGUMENTS = ["-c", "-O3", "-Wall", "-fmessage-length=0"]
 PROGRAM_NAME = "test"
 PROGRAM_PATH = f"{FILES_DIR}{PROGRAM_NAME}"
 
 files_arguments_exceptions = {
-    "main": "-D REALIZE_TEST" 
+    "main": ["-D", "REALIZE_TEST"] 
 }
 
 if sys.argv[1] == "build":
