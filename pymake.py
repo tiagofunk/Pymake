@@ -38,19 +38,21 @@ def execute( command ):
     r.close()
     if( result != [] ):
         print( result )
+        return False
+    return True
 
 def compile_file( file, arguments ):
     path, file = extract_path_and_file( file )
     command = create_file_compile_command(path, file, arguments)
-    execute( command )
+    return execute( command )
 
 def compile_program(files):
     command = create_program_compile_command( files )
-    execute( command )   
+    return execute( command )   
     
 def remove_file(file):
     command = create_remove_file_command( file )
-    execute( command )
+    return execute( command )
 
 def remove_program():
     if(os.path.exists( PROGRAM_PATH )):
@@ -58,17 +60,21 @@ def remove_program():
         execute( command )
 
 def build( files_arguments_exceptions ):
+    errors_counts = 0
     files = read_files(FILES_DIR)
     files = filter_extensions(files, ".cpp")
 
     for f in files:
         path, file = extract_path_and_file( f )
         if file in files_arguments_exceptions:
-            compile_file( f, f"{files_arguments_exceptions[file]} {ARGUMENTS}" )
+            if not compile_file( f, f"{files_arguments_exceptions[file]} {ARGUMENTS}" ):
+                errors_counts += 1
         else:
-            compile_file( f, ARGUMENTS )
+            if not compile_file( f, ARGUMENTS ):
+                errors_counts += 1
 
-    compile_program(files)
+    if errors_counts == 0:
+        compile_program(files)
 
 def clean():
     files = read_files(FILES_DIR)
