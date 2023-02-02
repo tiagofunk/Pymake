@@ -1,6 +1,6 @@
 # Pymake
 
-Ferramenta em python que se assemelha a ferramenta [make](https://www.gnu.org/software/make/) para a conpilação de projeto C/C++ de várias pastas e arquivos.
+Ferramenta em python que se assemelha a ferramenta [make](https://www.gnu.org/software/make/) para a compilação de projeto C/C++ de várias pastas e arquivos.
 
 Ele tem a intenção de permitir a compilação sem complexidade de comandos do make.
 
