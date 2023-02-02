@@ -15,4 +15,4 @@ Abra o arquivo pymake.py e edite as seguinte variaveis:
 
 O arquivo ```pygame.py``` deste repositório já contém uma configuração de exemplo para compilar os arquivos C++ na pasta ```src``` .
 
-Depois é só executar o arquivo ```pymake.py``` e ele vai gerar o arquivo execut
+Depois é só executar o arquivo ```pymake.py``` e ele vai gerar o arquivo executável na raiz do projeto.
