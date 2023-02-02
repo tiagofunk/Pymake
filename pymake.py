@@ -37,8 +37,14 @@ def create_remove_file_command( file ):
 def swap_extension( file ):
     return file[0:-4] + ".o"
 
+def show_command( command ):
+    show = ""
+    for c in command:
+        show += f"{c} "
+    return show
+
 def execute( command ):
-    print( f"Executando: {command}" )
+    print( f"Executando: {show_command(command)}" )
     try:
         output = subprocess.check_output(command)
         return True
