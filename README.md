@@ -1,8 +1,8 @@
 # Pymake
 
-Ferramenta em python que se assemelha a ferramenta [make](https://www.gnu.org/software/make/).
+Ferramenta em python que se assemelha a ferramenta [make](https://www.gnu.org/software/make/) para a conpilação de projeto C/C++ de várias pastas e arquivos.
 
-Ele tem a intenção de permitir a compilação de projetos em C/C++ de vários arquivos sem complexidade de comandos do make.
+Ele tem a intenção de permitir a compilação sem complexidade de comandos do make.
 
 # Como usar
 
@@ -14,3 +14,5 @@ Abra o arquivo pymake.py e edite as seguinte variaveis:
 - ```files_arguments_exceptions```: indica quais arquivos tem argumentos especiais (eles são adicionados aos argumentos padrão). Se nao tiver nenhum, deixar vazio.
 
 O arquivo ```pygame.py``` deste repositório já contém uma configuração de exemplo para compilar os arquivos C++ na pasta ```src``` .
+
+Depois é só executar o arquivo ```pymake.py``` e ele vai gerar o arquivo execut
