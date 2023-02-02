@@ -104,7 +104,7 @@ def clean():
     remove_program()
 
 
-FILES_DIR = "./c/"
+FILES_DIR = "./src/"
 COMPILER = "g++"
 ARGUMENTS = "-c -O3 -Wall -fmessage-length=0"
 PROGRAM_NAME = "test"
