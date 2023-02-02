@@ -75,7 +75,7 @@ def needs_compilation( path, file ):
     if len(files) == 1:
         return True
     sorted_files = sorted(files, key=lambda f: f.stat().st_mtime, reverse=True)
-    if sorted_files[0].name.endswith(".cpp"):
+    if not sorted_files[0].name.endswith(".o"):
         return True
     return False
 
