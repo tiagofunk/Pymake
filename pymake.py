@@ -71,7 +71,7 @@ def remove_program():
 
 def needs_compilation( path, file ):
     dir = Path( f"{path}")
-    files = list(dir.glob(f"*{file}*"))
+    files = list(dir.glob(f"{file}.*"))
     if len(files) == 1:
         return True
     sorted_files = sorted(files, key=lambda f: f.stat().st_mtime, reverse=True)
@@ -125,7 +125,8 @@ files_arguments_exceptions = {
     "main": ["-D", "REALIZE_TEST"] 
 }
 
-if sys.argv[1] == "build":
-   build( files_arguments_exceptions )
-elif sys.argv[1] == "clean":
-    clean()
+build( files_arguments_exceptions )
+# if sys.argv[1] == "build":
+#    build( files_arguments_exceptions )
+# elif sys.argv[1] == "clean":
+#     clean()
