@@ -125,8 +125,7 @@ files_arguments_exceptions = {
     "main": ["-D", "REALIZE_TEST"] 
 }
 
-build( files_arguments_exceptions )
-# if sys.argv[1] == "build":
-#    build( files_arguments_exceptions )
-# elif sys.argv[1] == "clean":
-#     clean()
+if sys.argv[1] == "build":
+   build( files_arguments_exceptions )
+elif sys.argv[1] == "clean":
+    clean()
